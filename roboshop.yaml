@@ -33,9 +33,21 @@
       amazon.aws.route53:
         state: present
         zone: "{{ DOMAIN_URL }}"
-        record: "{{ item.item }}-{{ ENV }}.{{ DOMAIN_URL }}"    # mongodb-dev.neeli.online
+        record: "{{ item.item }}-{{ ENV }}.{{ DOMAIN_URL }}"    # mongodb-dev.neeli.online,
         type: A
         ttl: 1
         value: "{{ item.instances[0].private_ip_address }}"
         wait: true
       loop: "{{ ec2_output.results }}"
+
+    - name: Create Rout53 Records
+      amazon.aws.route53:
+        state: present
+        zone: "{{ DOMAIN_URL }}"
+        record: "roboshop-{{ ENV }}.{{ DOMAIN_URL }}"    # mongodb-dev.neeli.online,
+        type: A
+        ttl: 1
+        value: "{{ item.instances[0].public_ip_address }}"
+        wait: true
+      loop: "{{ ec2_output.results }}"
+      when: item.item == "frontend"
