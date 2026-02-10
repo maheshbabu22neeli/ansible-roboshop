@@ -1,6 +1,5 @@
 - name: Create EC2 instances and Route53 Records
   hosts: all
-  become: yes
   connection: local
   vars:
     ENV: dev
@@ -15,10 +14,10 @@
   tasks:
     - name: Create EC2 instance
       amazon.aws.ec2_instance:
-        name: "{{ item }}-{{ ENV }}"  # ex: mongodb-dev
         instance_type: "{{ INSTANCE_TYPE }}"
         security_group: "{{ SG_ID }}"
         image_id: "{{ AMI_ID }}"
+        name: "{{ item }}-{{ ENV }}"  # ex: mongodb-dev
         tags:
           Project: Roboshop
           Name: "{{ item }}"
