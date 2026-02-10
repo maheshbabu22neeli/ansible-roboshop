@@ -15,7 +15,7 @@
   tasks:
     - name: Create EC2 instance
       amazon.aws.ec2_instance:
-        name: "{{ item }}-{{ ENV }}-{{ DOMAIN_URL }}"  # ex: mongodb-dev-neeli.online
+        name: "{{ item }}-{{ ENV }}"  # ex: mongodb-dev
         instance_type: "{{ INSTANCE_TYPE }}"
         security_group: "{{ SG_ID }}"
         image_id: "{{ AMI_ID }}"
