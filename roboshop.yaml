@@ -46,7 +46,7 @@
         type: A
         ttl: 1
         value: "{{ item.instances[0].private_ip_address }}"
-        wait: false
+        wait: true
         overwrite: true
       loop: "{{ ec2_output.results }}"
       when: ACTION == 'create'
@@ -73,7 +73,7 @@
         record: "{{ item }}-{{ ENV }}.{{ DOMAIN_URL }}"    # mongodb-dev.neeli.online,
         type: A
         ttl: 1
-      loop: "{{ instances }}"
+      loop: "{{ INSTANCES }}"
       when: ACTION == "destroy"
 
     - name: Delete EC2 instance
@@ -81,5 +81,5 @@
         state: absent
         name: "{{ item }}-{{ ENV }}"
         wait: false
-      loop: "{{ instances }}"
+      loop: "{{ INSTANCES }}"
       when: ACTION == "destroy"
