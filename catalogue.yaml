@@ -48,12 +48,12 @@
       community.general.npm:
         path: /app
 
-    - name: Copy Catalogue Repo
+    - name: Copy Catalogue Service
       ansible.builtin.copy:
         src: catalogue.service
         dest: /etc/systemd/system/catalogue.service
 
-    - name: Copy Mongo Repo
+    - name: Copy Mongo Repo to Yum Repos
       ansible.builtin.copy:
         src: mongo.repo
         dest: /etc/yum.repos.d/mongo.repo
@@ -67,7 +67,7 @@
       ansible.builtin.command: mongosh --host "{{ MONGODB_HOST }}" --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
       register: catalogue_db_output
 
-    - name: Verify DB data exists or not
+    - name: Output DB data exists or not
       ansible.builtin.debug:
         msg: "{{ catalogue_db_output }}"
 
