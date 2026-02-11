@@ -24,6 +24,7 @@
         security_group: "{{ SG_ID }}"
         image_id: "{{ AMI_ID }}"
         name: "{{ item }}-{{ ENV }}"  # ex: mongodb-dev
+        wait: false
         tags:
           Project: Roboshop
           Name: "{{ item }}"
@@ -45,7 +46,7 @@
         type: A
         ttl: 1
         value: "{{ item.instances[0].private_ip_address }}"
-        wait: true
+        wait: false
         overwrite: true
       loop: "{{ ec2_output.results }}"
       when: ACTION == 'create'
