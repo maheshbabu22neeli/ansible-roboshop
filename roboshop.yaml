@@ -25,7 +25,6 @@
         image_id: "{{ AMI_ID }}"
         name: "{{ item }}-{{ ENV }}"  # ex: mongodb-dev
         wait: false
-        overwrite: true
         tags:
           Project: Roboshop
           Name: "{{ item }}"
