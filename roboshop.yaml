@@ -76,6 +76,16 @@
       loop: "{{ INSTANCES }}"
       when: ACTION == "destroy"
 
+    - name: Delete Rout53 Frontend Record
+      amazon.aws.route53:
+        state: absent
+        zone: "{{ DOMAIN_URL }}"
+        record: "roboshop-{{ ENV }}.{{ DOMAIN_URL }}"    # mongodb-dev.neeli.online,
+        type: A
+        ttl: 1
+      loop: "{{ INSTANCES }}"
+      when: ACTION == "destroy"
+
     - name: Delete EC2 instance
       amazon.aws.ec2_instance:
         state: absent
