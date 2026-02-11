@@ -8,6 +8,7 @@
     INSTANCE_TYPE: "t3.micro"
     ROUTE53_HOSTED_ZONE_ID: Z013175831RO1NWFBESW7
     DOMAIN_URL: "neeli.online"
+    ACTION: create
     INSTANCES:
       - mongodb
       - catalogue
@@ -24,10 +25,12 @@
           Env: "{{ item }}-{{ ENV }}"
       loop: "{{ INSTANCES }}"
       register: ec2_output
+      when: ACTION == "create"
 
     - name: Print EC2 output
       ansible.builtin.debug:
         msg: "{{ ec2_output }}"
+      when: ACTION == 'create'
 
     - name: Create Rout53 Records
       amazon.aws.route53:
@@ -39,6 +42,7 @@
         value: "{{ item.instances[0].private_ip_address }}"
         wait: true
       loop: "{{ ec2_output.results }}"
+      when: ACTION == 'create'
 
     - name: Create Rout53 Records
       amazon.aws.route53:
@@ -50,4 +54,12 @@
         value: "{{ item.instances[0].public_ip_address }}"
         wait: true
       loop: "{{ ec2_output.results }}"
-      when: item.item == "frontend"
+      when:
+      - item.item == "frontend"
+      - ACTION == 'create'
+
+    - name: Delete EC2 instance
+      amazon.aws.ec2_instance:
+        state: absent
+        name: "{{ item }}-{{ ENV }}"
+      loop: "{{ instances }}"
