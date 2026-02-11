@@ -19,7 +19,7 @@
         replace: '0.0.0.0'
 
     - name: Enable and Start Service Module
-      ansible.buildin.service:
+      ansible.builtin.service:
         name: mongod
         enable: yes
         state: started
