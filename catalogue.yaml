@@ -34,3 +34,12 @@
         src: /tmp/catalogue.zip
         dest: /app
         remote_src: yes
+
+    - name: Install dependencies
+      community.general.npm:
+        path: /app
+
+    - name: Copy Mongo Repo
+      ansible.builtin.copy:
+        src: catalogue.service
+        dest: /etc/systemd/system/catalogue.service
