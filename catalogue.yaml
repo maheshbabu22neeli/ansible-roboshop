@@ -39,7 +39,25 @@
       community.general.npm:
         path: /app
 
-    - name: Copy Mongo Repo
+    - name: Copy Catalogue Repo
       ansible.builtin.copy:
         src: catalogue.service
         dest: /etc/systemd/system/catalogue.service
+
+    - name: Copy Mongo Repo
+      ansible.builtin.copy:
+        src: mongo.repo
+        dest: /etc/yum.repos.d/mongo.repo
+
+    - name: Install Mongo DB client
+      ansible.builtin.dnf:
+        name: mongodb-mongosh
+        state: present
+
+    - name: check products loaded
+      ansible.builtin.command: mongosh --host "{{ MONGODB_HOST }}" --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+      register: catalogue_output
+
+    - name: Verify DB data exists or not
+      ansible.builtin.debug:
+        msg: "{{ catalogue_output }}"
