@@ -1,3 +1,4 @@
+# ansible-playbook -i localhost, -e instances=['mongodb', 'catalogue', 'redis', 'user', 'cart', 'mysql', 'shipping', 'rabbitmq', 'payment', 'frontend'] roboshop.yaml
 - name: Create EC2 instances and Route53 Records
   hosts: all
   connection: local
@@ -12,7 +13,11 @@
     INSTANCES:
       - mongodb
       - catalogue
+      - cart
+      - user
+      - redis
   tasks:
+    #### Create Infrastructure  ####
     - name: Create EC2 instance
       amazon.aws.ec2_instance:
         instance_type: "{{ INSTANCE_TYPE }}"
@@ -58,8 +63,21 @@
       - item.item == "frontend"
       - ACTION == 'create'
 
+    #### Destroy Infrastructure  ####
+    - name: Delete Rout53 Records
+      amazon.aws.route53:
+        state: absent
+        zone: "{{ DOMAIN_URL }}"
+        record: "{{ item }}-{{ ENV }}.{{ DOMAIN_URL }}"    # mongodb-dev.neeli.online,
+        type: A
+        ttl: 1
+      loop: "{{ instances }}"
+      when: ACTION == "destroy"
+
     - name: Delete EC2 instance
       amazon.aws.ec2_instance:
         state: absent
         name: "{{ item }}-{{ ENV }}"
+        wait: false
       loop: "{{ instances }}"
+      when: ACTION == "destroy"
