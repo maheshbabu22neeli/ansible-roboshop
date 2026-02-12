@@ -24,7 +24,6 @@
         security_group: "{{ SG_ID }}"
         image_id: "{{ AMI_ID }}"
         name: "{{ item }}-{{ ENV }}"  # ex: mongodb-dev
-        wait: false
         tags:
           Project: Roboshop
           Name: "{{ item }}"
