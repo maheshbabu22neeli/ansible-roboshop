@@ -12,3 +12,10 @@ ansible-playbook -i localhost, \
  -e'{ "INSTANCES":["mongodb", "catalogue", "redis", "user", "cart", "mysql", "shipping", "rabbitmq", "payment", "frontend"]}' \
   roboshop.yaml
 ```
+
+
+```shell
+ansible-playbook -i localhost, \
+ -e '{ "INSTANCES":["mongodb", "catalogue"]}' \
+  roboshop.yaml
+```
