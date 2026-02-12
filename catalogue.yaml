@@ -48,8 +48,8 @@
       community.general.npm:
         path: /app
 
-    - name: Copy Catalogue Service
-      ansible.builtin.copy:
+    - name: Copy Catalogue Service and dynamically update placeholders
+      ansible.builtin.template:
         src: catalogue.service
         dest: /etc/systemd/system/catalogue.service
 
