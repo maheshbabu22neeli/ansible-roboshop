@@ -26,6 +26,7 @@ ansible-playbook -i localhost, \
   roboshop.yaml
 ```
 
+#### Commands to run for each playbook
 - `ansible-playbook -i inventory.ini mongodb.yaml`
 - `ansible-playbook -i inventory.ini catalogue.yaml`
 - `ansible-playbook -i inventory.ini redis.yaml`
