@@ -38,7 +38,7 @@
         url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
         dest: /tmp/user.zip
 
-    - name: unarchive user to app directory
+    - name: Unarchive user to app directory
       ansible.builtin.unarchive:
         src: /tmp/user.zip
         dest: /app
