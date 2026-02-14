@@ -63,6 +63,14 @@
       ansible.builtin.systemd_service:
         daemon_reload: true
 
+    - name: install dependencie
+      ansible.builtin.pip:
+        name: "{{ item }}"
+        executable: pip3.9
+      loop:
+        - cryptography
+        - PyMySQL
+
     - name: Import shipping records
       community.mysql.mysql_db:
         state: import
