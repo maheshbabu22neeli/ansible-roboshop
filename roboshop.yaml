@@ -50,11 +50,11 @@
       loop: "{{ ec2_output.results }}"
       when: ACTION == 'create'
 
-    - name: Create Rout53 Records
+    - name: Create Rout53 Records For Frontend
       amazon.aws.route53:
         state: present
         zone: "{{ DOMAIN_URL }}"
-        record: "roboshop-{{ ENV }}.{{ DOMAIN_URL }}"    # mongodb-dev.neeli.online,
+        record: "roboshop-{{ ENV }}.{{ DOMAIN_URL }}"    # roboshop-dev.neeli.online,
         type: A
         ttl: 1
         value: "{{ item.instances[0].public_ip_address }}"
@@ -69,7 +69,7 @@
       amazon.aws.route53:
         state: absent
         zone: "{{ DOMAIN_URL }}"
-        record: "{{ item }}-{{ ENV }}.{{ DOMAIN_URL }}"    # mongodb-dev.neeli.online,
+        record: "{{ item }}-{{ ENV }}.{{ DOMAIN_URL }}"
         type: A
         ttl: 1
       loop: "{{ INSTANCES }}"
@@ -79,7 +79,7 @@
       amazon.aws.route53:
         state: absent
         zone: "{{ DOMAIN_URL }}"
-        record: "roboshop-{{ ENV }}.{{ DOMAIN_URL }}"    # mongodb-dev.neeli.online,
+        record: "roboshop-{{ ENV }}.{{ DOMAIN_URL }}"
         type: A
         ttl: 1
       when: ACTION == "destroy"
