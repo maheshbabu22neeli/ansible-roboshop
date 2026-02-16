@@ -63,7 +63,7 @@
       ansible.builtin.systemd_service:
         daemon_reload: true
 
-    - name: install dependencie
+    - name: Install dependencie
       ansible.builtin.pip:
         name: "{{ item }}"
         executable: pip3.9
